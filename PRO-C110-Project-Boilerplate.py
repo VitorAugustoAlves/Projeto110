@@ -23,18 +23,21 @@ while True:
 
 		# Inverta o quadro
 		frame = cv2.flip(frame , 1)
-		
-		
-				
+			
 		# Redimensione o quadro
-
+		resized_frame = cv2.resize(frame, (224,224))
 		# Expanda a dimensão do array junto com o eixo 0
-
+		resized_frame = np.expand_dims(resized_frame, axis=0)
 		# Normalize para facilitar o processamento
-
+		resized_frame = resized_frame / 255
 		# Obtenha previsões do modelo
-		
-		
+		predictions = mymodel.predict(resized_frame)
+		rock = int(predictions[0][0]*100)
+		paper = int(predictions[0][1]*100)
+		scissor = int(predictions[0][2]*100)
+
+		print(f"Pedra: {rock}%, Papel: {paper}%, Tesoura: {scissor} %")
+
 		# Exibindo os quadros capturados
 		cv2.imshow('feed' , frame)
 
